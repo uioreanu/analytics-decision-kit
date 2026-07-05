@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "analytics-decision-kit"
+version = "0.1.0"
+description = "Notebook-first toolkit for customer analytics, revenue concentration and executive KPI summaries."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Calin Uioreanu" }
+]
+dependencies = [
+  "pandas>=2.0",
+  "numpy>=1.24"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0"
+]
+
+notebook = [
+  "jupyter>=1.0",
+  "matplotlib>=3.8",
+  "plotly>=5.20"
+]
+
+all = [
+  "pytest>=8.0",
+  "jupyter>=1.0",
+  "matplotlib>=3.8",
+  "plotly>=5.20"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

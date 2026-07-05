@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+dist/
+build/
+*.egg-info/
+.DS_Store
+.env
+data/private/
+outputs/
+*.xlsx
+*.csv
+!examples/*.csv
