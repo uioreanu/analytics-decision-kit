@@ -61,7 +61,7 @@ public_orders = get_transactional_data(DEFAULT_SUPERSTORE_GITHUB_URL)
 The output schema is the same in both cases:
 
 ```text
-order_id, customer_id, order_date, revenue, category, brand
+order_id, customer_id, order_date, revenue, category, manufacturer
 ```
 
 ## Data needed
@@ -75,12 +75,11 @@ The input dataframe should have:
 | order_date | date of the order |
 | revenue | revenue amount |
 | category | optional |
-| brand | optional |
+| manufacturer | optional |
 
 ## Public / safe by design
 
-Use synthetic or public data only.
-
+Use synthetic or public data only. Alternatively using a public available dataset like "Sample Superstore CSV"
 
 ## Initial scope
 
