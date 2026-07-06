@@ -41,6 +41,29 @@ print(results["summary_text"])
 print(results["decile_summary"])
 ```
 
+
+
+## Optional public GitHub dataset
+
+```python
+from analytics_decision_kit.data_loader import (
+    DEFAULT_SUPERSTORE_GITHUB_URL,
+    get_transactional_data,
+)
+
+# No URL -> synthetic data
+synthetic_orders = get_transactional_data()
+
+# GitHub/raw CSV URL -> public dataset normalized to the same schema
+public_orders = get_transactional_data(DEFAULT_SUPERSTORE_GITHUB_URL)
+```
+
+The output schema is the same in both cases:
+
+```text
+order_id, customer_id, order_date, revenue, category, brand
+```
+
 ## Data needed
 
 The input dataframe should have:

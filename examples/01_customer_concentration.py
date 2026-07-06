@@ -11,7 +11,7 @@ from analytics_decision_kit.customer_analysis import run_customer_analysis
 
 
 # create synthetic order data
-orders = create_demo_orders(n_customers=10000, n_orders=50000, seed=666)
+orders = create_demo_orders(n_customers=5000, n_orders=18000, seed=42)
 
 # quick inspect, like I would do in notebook
 print("\n=== raw orders ===")
