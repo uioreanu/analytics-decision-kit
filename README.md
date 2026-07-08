@@ -88,8 +88,8 @@ outputs/plotly/transactions_bubble_public_dataset.html
 
 ## Example Plotly outputs
 
-- [Revenue deciles](docs/plotly/revenue_deciles_public_dataset.html)
-- [Transaction bubble chart](docs/plotly/transactions_bubble_public_dataset.html)
+- [Revenue deciles](https://uioreanu.github.io/analytics-decision-kit/plotly/revenue_deciles_public_dataset.html)
+- [Transaction bubble chart](https://uioreanu.github.io/analytics-decision-kit/plotly/transactions_bubble_public_dataset.html)
 
 ### Revenue distribution by customer decile
 
