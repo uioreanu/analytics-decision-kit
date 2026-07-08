@@ -1,18 +1,19 @@
 # Analytics Decision Kit
 
-Small open-source analytics starter kit for customer KPIs, revenue concentration, segmentation and short executive summaries.
+Open-source analytics starter kit for customer KPIs, revenue concentration, segmentation, visual profiling and executive summaries.
 
-The repo is built notebook-first. 
+The repo is built notebook-first.
 
 ## What is in here
 
-- synthetic ecommerce order data
+- synthetic ecommerce order data as well as open dataset access
 - customer level KPI calculation
 - customer revenue deciles
 - pareto / top customer concentration
 - simple customer segmentation
 - short executive summary text
-- tests, becuase code without tests is basically hope in a hoodie
+- Plotly visual examples
+- DQ tests
 
 ## Quick start
 
@@ -41,8 +42,6 @@ print(results["summary_text"])
 print(results["decile_summary"])
 ```
 
-
-
 ## Optional public GitHub dataset
 
 ```python
@@ -64,6 +63,73 @@ The output schema is the same in both cases:
 order_id, customer_id, order_date, revenue, category, manufacturer
 ```
 
+## Plotly visual examples
+
+Plotly is optional and does not require Jupyter.
+
+Install Plotly only when you want to generate dynamic HTML charts:
+
+```bash
+pip install plotly
+```
+
+Run the public dataset visual example:
+
+```bash
+python examples/05_plotly_visuals_public_dataset.py
+```
+
+This creates dynamic HTML outputs in:
+
+```text
+outputs/plotly/revenue_deciles_public_dataset.html
+outputs/plotly/transactions_bubble_public_dataset.html
+```
+
+### Revenue distribution by customer decile
+
+```python
+from analytics_decision_kit.customer_analysis import (
+    calculate_customer_metrics,
+    calculate_revenue_deciles,
+)
+from analytics_decision_kit.data_loader import (
+    DEFAULT_SUPERSTORE_GITHUB_URL,
+    get_transactional_data,
+)
+
+orders = get_transactional_data(DEFAULT_SUPERSTORE_GITHUB_URL)
+
+customer_metrics = calculate_customer_metrics(orders)
+decile_df = calculate_revenue_deciles(customer_metrics)
+```
+
+The Plotly example visualizes:
+
+- revenue share by customer decile
+- cumulative revenue share
+- customers per decile
+- average revenue per customer
+
+### Transaction bubble chart
+
+```python
+from analytics_decision_kit.data_loader import (
+    DEFAULT_SUPERSTORE_GITHUB_URL,
+    get_transactional_data,
+)
+
+orders = get_transactional_data(DEFAULT_SUPERSTORE_GITHUB_URL)
+```
+
+The Plotly example samples 1,000 transactions and visualizes:
+
+- x-axis: order date
+- y-axis: transaction revenue
+- bubble size: transaction revenue
+- color: category
+- hover details: order id, customer id, manufacturer, category and revenue
+
 ## Data needed
 
 The input dataframe should have:
@@ -79,7 +145,7 @@ The input dataframe should have:
 
 ## Public / safe by design
 
-Use synthetic or public data only. Alternatively using a public available dataset like "Sample Superstore CSV"
+Use synthetic or public data only. Alternatively using a publicly available dataset like "Sample Superstore CSV".
 
 ## Initial scope
 
