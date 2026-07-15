@@ -114,7 +114,7 @@ Plotly is optional and does not require Jupyter.
 Install Plotly only when you want to generate interactive HTML dashboards:
 
 ```bash
-pip install plotly
+pip install -e ".[viz]"
 ```
 
 Then run:

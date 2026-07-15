@@ -23,6 +23,10 @@ dev = [
   "pytest>=8.0"
 ]
 
+viz = [
+  "plotly>=5.20"
+]
+
 notebook = [
   "jupyter>=1.0",
   "matplotlib>=3.8",
@@ -42,3 +46,8 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+
+[project.scripts]
+adk-demo = "analytics_decision_kit.cli:run_demo"
+adk-dashboard = "analytics_decision_kit.cli:create_dashboard"
+adk-kmeans = "analytics_decision_kit.cli:create_kmeans_dashboard"
