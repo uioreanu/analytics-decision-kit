@@ -135,6 +135,48 @@ The Plotly example samples 1,000 transactions and visualizes:
 - color: category
 - hover details: order id, customer id, manufacturer, category and revenue
 
+## Combined Plotly dashboards
+
+Plotly is optional and does not require Jupyter.
+
+```bash
+pip install plotly
+```
+
+Create the combined customer analytics dashboard:
+
+```bash
+python examples/06_customer_analytics_dashboard.py
+```
+
+This creates:
+
+```text
+docs/plotly/customer_analytics_dashboard.html
+```
+
+The dashboard includes:
+
+- revenue distribution by customer decile
+- Gini index evolution
+- title explaining concentration, for example: top 20% of customers cover x% of revenue
+- RFM 5 x 5 relief heatmap
+- RFM 3D relief surface
+- transaction revenue bubble chart
+
+Create the KMeans segmentation dashboard:
+
+```bash
+python examples/04_kmeans_customer_segmentation.py
+```
+
+This creates:
+
+```text
+docs/plotly/kmeans_customer_segmentation_dashboard.html
+```
+
+
 ## Data needed
 
 The input dataframe should have:
@@ -150,15 +192,5 @@ The input dataframe should have:
 
 ## Public / safe by design
 
-Use synthetic or public data only. Alternatively using a publicly available dataset like "Sample Superstore CSV".
+Using synthetic or public data only. Alternatively using a publicly available dataset like "Sample Superstore CSV".
 
-## Initial scope
-
-The first version is deliberately small:
-
-1. create demo data
-2. calculate customer metrics
-3. split customers into revenue deciles
-4. calculate top customer revenue concentration
-5. assign basic segments
-6. write a short summary

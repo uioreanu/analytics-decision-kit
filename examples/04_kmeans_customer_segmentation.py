@@ -1,15 +1,18 @@
-"""KMeans customer segmentation example.
+"""KMeans customer segmentation example with Plotly dashboard output.
 
 Run:
 python examples/04_kmeans_customer_segmentation.py
 """
 
+import pandas as pd
+
 from analytics_decision_kit.customer_analysis import calculate_customer_metrics
 from analytics_decision_kit.kmeans_segmentation import run_kmeans_segmentation
+from analytics_decision_kit.plotly_dashboards import create_kmeans_plotly_dashboard
 from analytics_decision_kit.sample_data import create_demo_orders
 
 
-orders = create_demo_orders(n_customers=2500, n_orders=9000, seed=42)
+orders = create_demo_orders(n_customers=5000, n_orders=18000, seed=42)
 customer_metrics = calculate_customer_metrics(orders)
 
 result = run_kmeans_segmentation(customer_metrics, k_min=5, k_max=7)
@@ -36,13 +39,24 @@ print(
     )
 )
 
-print("\n=== Sample customers with cluster names ===")
+print("\n=== Stratified sample customers with cluster names ===")
+sample_parts = []
+for cluster_id, cluster_df in result.customers.groupby("cluster"):
+    sample_parts.append(cluster_df.sample(n=min(3, len(cluster_df)), random_state=42))
 
 sample_customers = (
-    result.customers
-    .sample(n=min(10, len(result.customers)), random_state=42)
+    pd.concat(sample_parts)
     [["customer_id", "revenue", "orders", "cluster", "cluster_name"]]
     .sort_values(["cluster", "revenue"], ascending=[True, False])
 )
 
 print(sample_customers)
+
+dashboard_path = create_kmeans_plotly_dashboard(
+    customers_with_clusters=result.customers,
+    cluster_profile=result.cluster_profile,
+    output_path="docs/plotly/kmeans_customer_segmentation_dashboard.html",
+)
+
+print("\nCreated Plotly dashboard:")
+print(dashboard_path)
