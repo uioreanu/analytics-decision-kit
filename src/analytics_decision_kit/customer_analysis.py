@@ -159,6 +159,69 @@ def calculate_pareto_summary(
     return pareto_df
 
 
+def calculate_order_ladder_summary(
+    customer_df: pd.DataFrame,
+    orders_col: str = "orders",
+    revenue_col: str = "revenue",
+    bucket_limit: int = 10,
+) -> pd.DataFrame:
+    """Summarise customer profiles by number of orders.
+
+    Buckets are 1, 2, 3, ... up to bucket_limit - 1, and then bucket_limit+.
+    """
+
+    _check_columns(customer_df, [orders_col, revenue_col])
+
+    if len(customer_df) == 0:
+        raise ValueError("customer_df is empty")
+
+    df = customer_df[[orders_col, revenue_col]].copy()
+    df[orders_col] = pd.to_numeric(df[orders_col])
+    df[revenue_col] = pd.to_numeric(df[revenue_col])
+
+    rows = []
+    total_customers = len(df)
+    total_revenue = df[revenue_col].sum()
+
+    for n_orders in range(1, bucket_limit):
+        bucket_df = df[df[orders_col] == n_orders]
+        rows.append(
+            {
+                "order_bucket": str(n_orders),
+                "customers": len(bucket_df),
+                "customer_share": len(bucket_df) / total_customers,
+                "revenue": bucket_df[revenue_col].sum(),
+                "revenue_share": bucket_df[revenue_col].sum() / total_revenue
+                if total_revenue != 0
+                else 0,
+            }
+        )
+
+    bucket_df = df[df[orders_col] >= bucket_limit]
+    rows.append(
+        {
+            "order_bucket": f"{bucket_limit}+",
+            "customers": len(bucket_df),
+            "customer_share": len(bucket_df) / total_customers,
+            "revenue": bucket_df[revenue_col].sum(),
+            "revenue_share": bucket_df[revenue_col].sum() / total_revenue
+            if total_revenue != 0
+            else 0,
+        }
+    )
+
+    ladder_df = pd.DataFrame(rows)
+    ladder_df["order_bucket"] = pd.Categorical(
+        ladder_df["order_bucket"],
+        categories=[str(x) for x in range(1, bucket_limit)] + [f"{bucket_limit}+"],
+        ordered=True,
+    )
+
+    return ladder_df.sort_values("order_bucket").reset_index(drop=True)
+
+
+
+
 def assign_customer_segments(
     customer_df: pd.DataFrame,
     revenue_col: str = "revenue",
@@ -260,11 +323,13 @@ def run_customer_analysis(orders: pd.DataFrame) -> dict[str, pd.DataFrame | str]
 
     decile_df = calculate_revenue_deciles(customer_df)
     pareto_df = calculate_pareto_summary(customer_df)
+    order_ladder_df = calculate_order_ladder_summary(customer_df)
     summary_text = write_summary_text(customer_df, decile_df, pareto_df)
 
     return {
         "customer_metrics": customer_df,
         "decile_summary": decile_df,
         "pareto_summary": pareto_df,
+        "order_ladder_summary": order_ladder_df,
         "summary_text": summary_text,
     }

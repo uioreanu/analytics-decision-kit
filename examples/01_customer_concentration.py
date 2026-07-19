@@ -4,8 +4,6 @@ Run:
 python examples/01_customer_concentration.py
 """
 
-import pandas as pd
-
 from analytics_decision_kit.sample_data import create_demo_orders
 from analytics_decision_kit.customer_analysis import run_customer_analysis
 
@@ -24,6 +22,7 @@ results = run_customer_analysis(orders)
 customer_df = results["customer_metrics"]
 decile_df = results["decile_summary"]
 pareto_df = results["pareto_summary"]
+order_ladder_df = results["order_ladder_summary"]
 
 print("\n=== customer metrics ===")
 print(customer_df.head())
@@ -45,6 +44,17 @@ print(
         index=False,
         formatters={
             "top_customer_share": "{:.0%}".format,
+            "revenue_share": "{:.1%}".format,
+        },
+    )
+)
+
+print("\n=== order ladder summary ===")
+print(
+    order_ladder_df.to_string(
+        index=False,
+        formatters={
+            "customer_share": "{:.1%}".format,
             "revenue_share": "{:.1%}".format,
         },
     )
