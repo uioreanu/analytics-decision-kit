@@ -51,3 +51,4 @@ pythonpath = ["src"]
 adk-demo = "analytics_decision_kit.cli:run_demo"
 adk-dashboard = "analytics_decision_kit.cli:create_dashboard"
 adk-kmeans = "analytics_decision_kit.cli:create_kmeans_dashboard"
+adk-brand-pca = "analytics_decision_kit.cli:create_brand_pca_dashboard_command"

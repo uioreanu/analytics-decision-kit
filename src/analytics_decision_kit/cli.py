@@ -1,5 +1,6 @@
 """Command line entry points for Analytics Decision Kit."""
 
+from analytics_decision_kit.brand_pca import create_brand_pca_dashboard, run_brand_pca
 from analytics_decision_kit.customer_analysis import (
     calculate_customer_metrics,
     run_customer_analysis,
